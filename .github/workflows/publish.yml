@@ -14,9 +14,10 @@ jobs:
           python-version: "3.11"
       - name: Build
         run: |
-          pip install build
+          pip install build twine
           python -m build
-      - name: Publish
-        uses: pypa/gh-action-pypi-publish@release/v1
-        with:
-          password: ${{ secrets.PYPI_TOKEN }}
+      - name: Upload to PyPI
+        run: twine upload dist/* --non-interactive
+        env:
+          TWINE_USERNAME: __token__
+          TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
